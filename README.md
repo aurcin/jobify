@@ -1,24 +1,3 @@
-## Challenge - Setup Dashboard Pages
-
-- create add-job, jobs and stats pages
-- group them in (dashboard)
-- setup a layout file (for now just pass children)
-
-## Dashboard Pages
-
-- create add-job, jobs and stats pages
-- group them in (dashboard)
-- setup a layout file (just pass children)
-
-(dashboard)/layout.tsx
-
-```tsx
-function layout({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>;
-}
-export default layout;
-```
-
 ## Challenge - Add Clerk Auth
 
 - setup new app, configure fields - (or use existing)
