@@ -1,10 +1,10 @@
 'use client';
-
-import { Button } from '@/components/ui/button';
-import links from '@/utils/links';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
+import { Button } from '@/components/ui/button';
+import links from '@/utils/links';
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -15,7 +15,7 @@ export default function Sidebar() {
       <li key={href}>
         <Button asChild variant={pathname === href ? 'default' : 'outline'}>
           <Link href={href} className='flex items-center gap-x-2 w-full'>
-            {link.icon}
+            {icon}
             <span className='capitalize'>{label}</span>
           </Link>
         </Button>
