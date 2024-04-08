@@ -1,5 +1,5 @@
 import LinksDropdown from '@/components/ui-custom/links-dropdown';
-import ThemeToggle from '@/components/ui-custom/theme-toggler/index.tsx';
+import ThemeToggle from '@/components/ui-custom/theme-toggler';
 import { UserButton } from '@clerk/nextjs';
 
 export default function Navbar() {
