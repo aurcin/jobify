@@ -1,168 +1,20 @@
-## Shadcn/ui Forms
-
-- install
-
-```sh
-npx shadcn-ui@latest add form input
-```
-
-## CreateJobForm Setup
-
-- components/CreateJobForm
-- render in add-job/page.tsx
-
-```tsx
-'use client';
-
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
-});
-
-function CreateJobForm() {
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: '',
-    },
-  });
-
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
-
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-        <FormField
-          control={form.control}
-          name='username'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder='shadcn' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type='submit'>Submit</Button>
-      </form>
-    </Form>
-  );
-}
-export default CreateJobForm;
-```
-
-### CreateJobForm - Details
-
-1. **Imports:** Necessary modules and components are imported. This includes form handling and validation libraries, UI components, and the zod schema validation library.
-
-2. **Form Schema:** A `formSchema` is defined using zod. This schema specifies that the `username` field is a string and must be at least 2 characters long.
-
-3. **CreateJobForm Component:** This is the main component. It uses the `useForm` hook from `react-hook-form` to create a form instance which can be used to manage form state, handle form submission, and perform form validation. The form instance is configured with the zod schema as its resolver and a default value for the `username` field.
-
-4. **Submit Handler:** A `onSubmit` function is defined. This function logs the form values when the form is submitted. The form values are type-checked and validated against the zod schema.
-
-5. **Render:** The component returns a form with a single `username` field and a submit button. The `username` field is rendered using the `FormField` component, which is passed the form control and the field name. The `render` prop of `FormField` is used to render the actual input field and its associated label and message.
-
-6. **Export:** The `CreateJobForm` component is exported as the default export of the module. This allows it to be imported in other files using the file path.
-
-## Challenge - Create Types
-
-1. **Create utils/types.ts:**
-
-   - Create a new file named `types.ts` inside the `utils` directory.
-
-2. **Define the `JobStatus` and `JobMode` enums:**
-
-   - Define the `JobStatus` enum with the values 'applied', 'interview', 'offer', and 'rejected'.
-   - Define the `JobMode` enum with the values 'fullTime', 'partTime', and 'internship'.
-
-3. **Define the `createAndEditJobSchema` object:**
-
-   - Use `z.object()` from the zod library to define a schema for creating and editing jobs.
-   - The schema includes `position`, `company`, `location`, `status`, and `mode`. Each of these fields is a string with a minimum length of 2 characters, except for `status` and `mode` which are enums.
-
-4. **Export the `createAndEditJobSchema` object:**
-
-   - Export the `createAndEditJobSchema` object so it can be used in other files.
-
-5. **Define and export the `CreateAndEditJobType` type:**
-   - Use `z.infer<typeof createAndEditJobSchema>` to infer the type of the `createAndEditJobSchema` object.
-   - Export the `CreateAndEditJobType` type so it can be used in other files.
-
-Enums in TypeScript are a special type that allows you to define a set of named constants. They can be numeric or string-based.
-
-## Types
-
-- utils/types.ts
-
-```ts
-import * as z from 'zod';
-
-export type JobType = {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  clerkId: string;
-  position: string;
-  company: string;
-  location: string;
-  status: string;
-  mode: string;
-};
-
-export enum JobStatus {
-  Pending = 'pending',
-  Interview = 'interview',
-  Declined = 'declined',
-}
-
-export enum JobMode {
-  FullTime = 'full-time',
-  PartTime = 'part-time',
-  Internship = 'internship',
-}
-// Enums in TypeScript are a special type that allows you to define a set of named constants. They can be numeric or string-based.
-
 export const createAndEditJobSchema = z.object({
-  position: z.string().min(2, {
-    message: 'position must be at least 2 characters.',
-  }),
-  company: z.string().min(2, {
-    message: 'company must be at least 2 characters.',
-  }),
-  location: z.string().min(2, {
-    message: 'location must be at least 2 characters.',
-  }),
-  status: z.nativeEnum(JobStatus),
-  mode: z.nativeEnum(JobMode),
+position: z.string().min(2, {
+message: 'position must be at least 2 characters.',
+}),
+company: z.string().min(2, {
+message: 'company must be at least 2 characters.',
+}),
+location: z.string().min(2, {
+message: 'location must be at least 2 characters.',
+}),
+status: z.nativeEnum(JobStatus),
+mode: z.nativeEnum(JobMode),
 });
 
 export type CreateAndEditJobType = z.infer<typeof createAndEditJobSchema>;
-```
+
+````
 
 ## Explore Select Component
 
@@ -170,7 +22,7 @@ export type CreateAndEditJobType = z.infer<typeof createAndEditJobSchema>;
 
 ```sh
 npx shadcn-ui@latest add select
-```
+````
 
 ```tsx
 import {

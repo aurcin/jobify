@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
-import paths from '@/utils/paths';
+import paths from '@/utils/navigation/paths';
 
 export default function Home() {
   return (

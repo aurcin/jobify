@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import links from '@/utils/links';
+import links from '@/utils/navigation/main-navigation';
 
 export default function LinksDropdown() {
   const renderLinks = links.map(link => {

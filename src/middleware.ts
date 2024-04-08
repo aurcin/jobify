@@ -1,6 +1,6 @@
 import { authMiddleware } from '@clerk/nextjs';
 
-import paths from '@/utils/paths';
+import paths from '@/utils/navigation/paths';
 
 // accessible routes without authentication
 export default authMiddleware({

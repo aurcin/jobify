@@ -1,6 +1,6 @@
 import { AreaChart, Layers, AppWindow } from 'lucide-react';
 
-import paths from '@/utils/paths';
+import paths from '@/utils/navigation/paths';
 
 const links: NavLink[] = [
   {

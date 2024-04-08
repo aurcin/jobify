@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import links from '@/utils/links';
+import links from '@/utils/navigation/main-navigation';
 
 export default function Sidebar() {
   const pathname = usePathname();
