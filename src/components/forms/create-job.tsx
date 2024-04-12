@@ -1,15 +1,18 @@
 'use client';
 
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import Field from '@/components/ui-custom/form/field';
 import Select from '@/components/ui-custom/form/select';
+import { useToast } from '@/components/ui/use-toast';
 import { CreateAndEditJobType, JobMode, JobStatus } from '@/types/jobs';
 import { createAndEditJobSchema } from '@/utils/jobs/form-validation';
+import { createJob } from '@/actions/job';
 
 export default function CreateJobForm() {
   const form = useForm<CreateAndEditJobType>({
@@ -23,8 +26,32 @@ export default function CreateJobForm() {
     },
   });
 
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const router = useRouter();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (values: CreateAndEditJobType) => createJob(values),
+    onSuccess: data => {
+      // we return null on error, so if we get null here we inform user
+      if (!data) {
+        return toast({
+          description: 'Failed to add job',
+        });
+      }
+      toast({ description: 'The job added successfully' });
+
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+      queryClient.invalidateQueries({ queryKey: ['stats'] });
+      queryClient.invalidateQueries({ queryKey: ['charts'] });
+
+      // don't reset selects
+      form.reset();
+      router.push('/jobs');
+    },
+  });
+
   function onSubmit(values: CreateAndEditJobType) {
-    console.log(values);
+    mutate(values);
   }
 
   return (
@@ -55,8 +82,11 @@ export default function CreateJobForm() {
             items={Object.values(JobMode)}
           />
 
-          <Button type='submit' className='self-end capitalize'>
-            create job
+          <Button
+            type='submit'
+            className='self-end capitalize'
+            disabled={isPending}>
+            {isPending ? 'loading' : 'create job'}
           </Button>
         </div>
       </form>
