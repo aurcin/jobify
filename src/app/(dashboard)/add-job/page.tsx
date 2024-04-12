@@ -4,7 +4,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 
-import CreateJobForm from '@/components/forms/create-job';
+import CreateJobForm from '@/components/forms/job/create';
 
 export default function AddJobPage() {
   const queryClient = new QueryClient();

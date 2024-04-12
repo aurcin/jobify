@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { createAndEditJobSchema } from '@/utils/jobs/form-validation';
 
-export type JobType = {
+export type Job = {
   id: string;
   clerkId: string;
 
@@ -29,4 +29,18 @@ export enum JobMode {
   Internship = 'internship',
 }
 
-export type CreateAndEditJobType = z.infer<typeof createAndEditJobSchema>;
+export type CreateAndEditJob = z.infer<typeof createAndEditJobSchema>;
+
+export type GetJobsParameters = {
+  search?: string;
+  jobStatus?: string;
+  page?: number;
+  limit?: number;
+};
+
+export type JobList = {
+  jobs: Job[];
+  count: number;
+  page: number;
+  totalPages: number;
+};

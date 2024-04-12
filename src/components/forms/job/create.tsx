@@ -10,12 +10,13 @@ import { Form } from '@/components/ui/form';
 import Field from '@/components/ui-custom/form/field';
 import Select from '@/components/ui-custom/form/select';
 import { useToast } from '@/components/ui/use-toast';
-import { CreateAndEditJobType, JobMode, JobStatus } from '@/types/jobs';
+import type { CreateAndEditJob } from '@/types/jobs';
+import { JobMode, JobStatus } from '@/types/jobs';
 import { createAndEditJobSchema } from '@/utils/jobs/form-validation';
 import { createJob } from '@/actions/job';
 
 export default function CreateJobForm() {
-  const form = useForm<CreateAndEditJobType>({
+  const form = useForm<CreateAndEditJob>({
     resolver: zodResolver(createAndEditJobSchema),
     defaultValues: {
       position: '',
@@ -30,7 +31,7 @@ export default function CreateJobForm() {
   const { toast } = useToast();
   const router = useRouter();
   const { mutate, isPending } = useMutation({
-    mutationFn: (values: CreateAndEditJobType) => createJob(values),
+    mutationFn: (values: CreateAndEditJob) => createJob(values),
     onSuccess: data => {
       // we return null on error, so if we get null here we inform user
       if (!data) {
@@ -50,7 +51,7 @@ export default function CreateJobForm() {
     },
   });
 
-  function onSubmit(values: CreateAndEditJobType) {
+  function onSubmit(values: CreateAndEditJob) {
     mutate(values);
   }
 
