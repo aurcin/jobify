@@ -5,5 +5,8 @@ interface JobCardProps {
 }
 
 export default function JobCard(props: JobCardProps) {
-  return <h1 className='text-4xl'>Job Card</h1>;
+  const {
+    job: { position },
+  } = props;
+  return <h1 className='text-4xl'>{position}</h1>;
 }
