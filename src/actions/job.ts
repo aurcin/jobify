@@ -88,3 +88,20 @@ export async function getJobs(params: GetJobsParameters): Promise<JobList> {
     return { jobs: [], count: 0, page: 1, totalPages: 0 };
   }
 }
+
+export async function deleteJob(id: string): Promise<Job | null> {
+  const userId = authenticateAndRedirect();
+
+  try {
+    const job: Job = await db.job.delete({
+      where: {
+        id,
+        clerkId: userId,
+      },
+    });
+
+    return job;
+  } catch (error) {
+    return null;
+  }
+}

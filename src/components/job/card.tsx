@@ -44,11 +44,13 @@ export default function JobCard(props: JobCardProps) {
           <JobInfo icon={<RadioTower className='w-4 h-4' />} text={status} />
         </Badge>
       </CardContent>
-      <CardFooter className='flex gap-4'>
+      <CardFooter className='flex gap-2'>
         <Button asChild size='sm'>
-          <Link href={paths.jobById(id)}>edit</Link>
+          <Link className='w-20' href={paths.jobById(id)}>
+            edit
+          </Link>
         </Button>
-        <DeleteJobButton />
+        <DeleteJobButton id={id} />
       </CardFooter>
     </Card>
   );
