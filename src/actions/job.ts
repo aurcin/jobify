@@ -1,6 +1,12 @@
 'use server';
 
 import { Prisma } from '@prisma/client';
+import { redirect } from 'next/navigation';
+
+import { createAndEditJobSchema } from '@/utils/jobs/form-validation';
+import { authenticateAndRedirect } from '@/utils/auth/lib';
+import db from '@/utils/db/instance';
+import paths from '@/utils/navigation/paths';
 
 import type {
   CreateAndEditJob,
@@ -8,9 +14,6 @@ import type {
   GetJobsParameters,
   JobList,
 } from '@/types/jobs';
-import { authenticateAndRedirect } from '@/utils/auth/lib';
-import db from '@/utils/db/instance';
-import { createAndEditJobSchema } from '@/utils/jobs/form-validation';
 
 const DEFAULT_PAGE = 1;
 const JOBS_PER_PAGE = 10;
@@ -86,6 +89,49 @@ export async function getJobs(params: GetJobsParameters): Promise<JobList> {
   } catch (error) {
     console.error(error);
     return { jobs: [], count: 0, page: 1, totalPages: 0 };
+  }
+}
+
+export async function getJobById(id: string): Promise<Job | null> {
+  let job: Job | null = null;
+  const userId = authenticateAndRedirect();
+
+  try {
+    job = await db.job.findUnique({
+      where: {
+        id,
+        clerkId: userId,
+      },
+    });
+  } catch (error) {
+    job = null;
+  }
+  if (!job) {
+    redirect(paths.jobs());
+  }
+
+  return job;
+}
+
+export async function updateJob(
+  id: string,
+  values: CreateAndEditJob
+): Promise<Job | null> {
+  const userId = authenticateAndRedirect();
+
+  try {
+    const job: Job = await db.job.update({
+      where: {
+        id,
+        clerkId: userId,
+      },
+      data: {
+        ...values,
+      },
+    });
+    return job;
+  } catch (error) {
+    return null;
   }
 }
 
